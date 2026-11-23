@@ -39,8 +39,12 @@ class InventoryPage:
         )
         products = self.driver.find_elements(*self.PRODUCT_NAMES)
         return len(products)
+    
     def add_backpack_to_cart(self):
-        self.driver.find_element(*self.ADD_BACKPACK).click()
+        self.wait.until(
+            EC.element_to_be_clickable(self.ADD_BACKPACK)
+        ).click()
+
     def cart_count(self):
         badge = self.wait.until(
             EC.visibility_of_element_located(self.CART_BADGE)
