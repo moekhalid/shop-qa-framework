@@ -1,3 +1,4 @@
+from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -64,8 +65,18 @@ class CartPage:
         )
         return item.text
 
+    
+    
     def remove_backpack(self):
-        self.driver.find_element(*self.REMOVE_BACKPACK).click()
+        wait = WebDriverWait(
+            self.driver,
+            15,
+            ignored_exceptions=(StaleElementReferenceException,)
+        )
+        wait.until(
+            EC.element_to_be_clickable(self.REMOVE_BACKPACK)
+        ).click()
+
      
     def product_count(self):
         items = self.driver.find_elements(*self.CART_ITEM)

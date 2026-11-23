@@ -1,9 +1,17 @@
 import pytest
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
 
 @pytest.fixture
 def driver():
-    drv = webdriver.Chrome()
+    options = Options()
+    options.add_argument("--headless=new")
+    options.add_argument("--window-size=1920,1080")
+
+    drv = webdriver.Chrome(options=options)
+
     yield drv
+
     drv.quit()
+
